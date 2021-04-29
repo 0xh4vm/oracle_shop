@@ -1,0 +1,494 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- -->
+    <section>
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-remember active" data-toggle="tab" href="#tab_account">Аккаунт</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-remember" data-toggle="tab" href="#tab_address">Мои проекты</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <!-- ACCOUNT TAB -->
+                        <div id="tab_account" class="tab-pane active">
+
+                            <form id="form_account" method="post" action="/auth/account/change_settings/" novalidate class="bs-validate" enctype="multipart/form-data">
+
+                                <!-- PERSONAL DETAIL -->
+                                <div class="p-4 shadow-xs border bt-0 mb-4 bg-white">
+
+                                    <div class="row">
+
+                                        <!-- avatar -->
+                                        <label class="w--120 h--120 rounded text-center position-relative d-inline-block cursor-pointer border border-secondary border-dashed bg-white">
+
+                                            <a href="#" id="remove_avatar" class="js-file-upload-avatar-squared-remove position-absolute absolute-top text-align-start w-100 z-index-3">
+                                                <span class="d-inline-block btn btn-sm bg-secondary text-white pt--4 pb--4 pl--10 pr--10 m--1" title="Удалить" data-tooltip="tooltip">
+                                                    <i class="fi fi-close m-0"></i>
+                                                </span>
+                                                <input name="remove_avatar" type="hidden" />
+                                            </a>
+
+                                            <span class="z-index-2 js-file-input-avatar-squared-container d-block absolute-full z-index-1 hide-empty">
+                                                <span 	style="background-image:url('{{url_for('static', filename='users/avatar/')}}{{user.image}}')"
+                                                        class="js-file-input-item d-inline-block position-relative overflow-hidden text-center m-0 p-0 animate-bouncein bg-cover w-100 h-100">
+                                                </span>
+                                            </span>
+
+                                                <input	name="avatar"
+                                                        type="file"
+
+                                                        data-file-ext="jpg, png"
+                                                        data-file-max-size-kb-per-file="11500"
+                                                        data-file-ext-err-msg="Разрешено:"
+                                                        data-file-size-err-item-msg="Файл имеет слишком большой вес!"
+                                                        data-file-size-err-total-msg="!"
+                                                        data-file-toast-position="top-right"
+                                                        data-file-preview-container=".js-file-input-avatar-squared-container"
+                                                        data-file-preview-show-info="false"
+                                                        data-file-preview-class="m-0 p-0 rounded animate-bouncein"
+                                                        data-file-preview-img-height="118"
+                                                        data-file-btn-clear="a.js-file-upload-avatar-squared-remove"
+                                                        data-file-preview-img-cover="true"
+
+                                                        class="custom-file-input absolute-full">
+
+                                            <svg class="fill-gray-600 m--25 z-index-0" viewBox="0 0 60 60">
+                                                <path d="M41.014,45.389l-9.553-4.776C30.56,40.162,30,39.256,30,38.248v-3.381c0.229-0.28,0.47-0.599,0.719-0.951c1.239-1.75,2.232-3.698,2.954-5.799C35.084,27.47,36,26.075,36,24.5v-4c0-0.963-0.36-1.896-1-2.625v-5.319c0.056-0.55,0.276-3.824-2.092-6.525C30.854,3.688,27.521,2.5,23,2.5s-7.854,1.188-9.908,3.53c-2.368,2.701-2.148,5.976-2.092,6.525v5.319c-0.64,0.729-1,1.662-1,2.625v4c0,1.217,0.553,2.352,1.497,3.109c0.916,3.627,2.833,6.36,3.503,7.237v3.309c0,0.968-0.528,1.856-1.377,2.32l-8.921,4.866C1.801,46.924,0,49.958,0,53.262V57.5h46v-4.043C46,50.018,44.089,46.927,41.014,45.389z"/>
+                                                <path d="M55.467,46.526l-9.723-4.21c-0.23-0.115-0.485-0.396-0.704-0.771l6.525-0.005c0,0,0.377,0.037,0.962,0.037c1.073,0,2.638-0.122,4-0.707c0.817-0.352,1.425-1.047,1.669-1.907c0.246-0.868,0.09-1.787-0.426-2.523c-1.865-2.654-6.218-9.589-6.354-16.623c-0.003-0.121-0.397-12.083-12.21-12.18c-1.187,0.01-2.309,0.156-3.372,0.413c0.792,2.094,0.719,3.968,0.665,4.576v4.733c0.648,0.922,1,2.017,1,3.141v4c0,1.907-1.004,3.672-2.607,4.662c-0.748,2.022-1.738,3.911-2.949,5.621c-0.15,0.213-0.298,0.414-0.443,0.604v2.86c0,0.442,0.236,0.825,0.631,1.022l9.553,4.776c3.587,1.794,5.815,5.399,5.815,9.41V57.5H60v-3.697C60,50.711,58.282,47.933,55.467,46.526z"/>
+                                            </svg>
+
+                                        </label>
+                                        <!-- /avatar -->
+
+
+                                        <!-- detail -->
+                                        <div class="col">
+
+                                            <div class="row">
+
+                                                 <div class="col-12 col-sm-6 col-md-6">
+
+
+                                                    <div class="input-group-over">
+                                                        <div class="form-label-group mb-3">
+                                                            <input readonly placeholder="Email" id="account_email" name="account_email" type="email" class="form-control" value="{{user.email}}">
+                                                            <label for="account_email">Email</label>
+                                                        </div>
+
+                                                        <a id="email_edit_show" href="javascript:;" class="btn fs--13" onclick="jQuery('#account_email').attr('readonly', false); jQuery('#email_edit_show, #email_edit_info').addClass('hide'); jQuery('#email_edit_hide, #email_edit_info').removeClass('hide');jQuery('#account_email').val('{{user.email}}').focus();">
+                                                            <i class="fi fi-pencil m-0"></i>
+                                                        </a>
+
+                                                        <a id="email_edit_hide" href="javascript:;" class="btn fs--12 hide" onclick="jQuery('#account_email').attr('readonly', true); jQuery('#email_edit_show, #email_edit_info').removeClass('hide'); jQuery('#email_edit_hide, #email_edit_info').addClass('hide'); jQuery('#account_email').val('{{user.email}}');">
+                                                            <i class="fi fi-close m-0"></i>
+                                                        </a>
+
+                                                    </div>
+
+                                                    <!-- /EMAIL ADDRESS -->
+
+                                                </div>
+
+                                                <div class="col-12 col-sm-6 col-md-6">
+
+
+                                                    <div class="input-group-over">
+                                                        <div class="form-label-group mb-3">
+                                                            <input readonly placeholder="Логин" id="account_nickname" name="account_nickname" type="text" class="form-control" value="{{user.nickname}}">
+                                                            <label for="account_nickname">Логин</label>
+                                                        </div>
+
+                                                        <a id="nickname_edit_show" href="javascript:;" class="btn fs--13" onclick="jQuery('#account_nickname').attr('readonly', false); jQuery('#nickname_edit_show, #nickname_edit_info').addClass('hide'); jQuery('#nickname_edit_hide, #nickname_edit_info').removeClass('hide');jQuery('#account_nickname').val('{{user.nickname}}').focus();">
+                                                            <i class="fi fi-pencil m-0"></i>
+                                                        </a>
+
+                                                        <a id="nickname_edit_hide" href="javascript:;" class="btn fs--12 hide" onclick="jQuery('#account_nickname').attr('readonly', true); jQuery('#nickname_edit_show, #nickname_edit_info').removeClass('hide'); jQuery('#nickname_edit_hide, #nickname_edit_info').addClass('hide'); jQuery('#account_nickname').val('{{user.nickname}}');">
+                                                            <i class="fi fi-close m-0"></i>
+                                                        </a>
+
+                                                    </div>
+                                                    <!-- /NICK -->
+
+                                                </div>
+
+
+                                                <div class="col-12 col-sm-6 col-md-6">
+
+
+                                                    <div class="input-group-over">
+                                                        <div class="form-label-group mb-3">
+                                                            <input readonly placeholder="Имя" id="account_first_name" name="account_first_name" type="text" class="form-control" value="{{user.first_name}}">
+                                                            <label for="account_first_name">Имя</label>
+                                                        </div>
+
+                                                        <a id="first_name_edit_show" href="javascript:;" class="btn fs--13" onclick="jQuery('#account_first_name').attr('readonly', false); jQuery('#first_name_edit_show, #first_name_edit_info').addClass('hide'); jQuery('#first_name_edit_hide, #first_name_edit_info').removeClass('hide');jQuery('#account_first_name').val('{{user.first_name}}').focus();">
+                                                            <i class="fi fi-pencil m-0"></i>
+                                                        </a>
+
+                                                        <a id="first_name_edit_hide" href="javascript:;" class="btn fs--12 hide" onclick="jQuery('#account_first_name').attr('readonly', true); jQuery('#first_name_edit_show, #first_name_edit_info').removeClass('hide'); jQuery('#first_name_edit_hide, #first_name_edit_info').addClass('hide'); jQuery('#account_first_name').val('{{user.first_name}}');">
+                                                            <i class="fi fi-close m-0"></i>
+                                                        </a>
+
+                                                    </div>
+
+                                                    <!-- /FIRST NAME -->
+
+                                                </div>
+
+                                                <div class="col-12 col-sm-6 col-md-6">
+
+
+                                                    <div class="input-group-over">
+                                                        <div class="form-label-group mb-3">
+                                                            <input readonly placeholder="Фамилия" id="account_last_name" name="account_last_name" type="text" class="form-control" value="{{user.last_name}}">
+                                                            <label for="account_last_name">Фамилия</label>
+                                                        </div>
+
+                                                        <a id="last_name_edit_show" href="javascript:;" class="btn fs--13" onclick="jQuery('#account_last_name').attr('readonly', false); jQuery('#last_name_edit_show, #last_name_edit_info').addClass('hide'); jQuery('#last_name_edit_hide, #last_name_edit_info').removeClass('hide');jQuery('#account_last_name').val('{{user.last_name}}').focus();">
+                                                            <i class="fi fi-pencil m-0"></i>
+                                                        </a>
+
+                                                        <a id="last_name_edit_hide" href="javascript:;" class="btn fs--12 hide" onclick="jQuery('#account_last_name').attr('readonly', true); jQuery('#last_name_edit_show, #last_name_edit_info').removeClass('hide'); jQuery('#last_name_edit_hide, #last_name_edit_info').addClass('hide'); jQuery('#account_last_name').val('{{user.last_name}}');">
+                                                            <i class="fi fi-close m-0"></i>
+                                                        </a>
+
+                                                    </div>
+
+                                                    <!-- /LAST NAME -->
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- detail -->
+
+                                    </div>
+
+                                </div>
+                                <!-- /PERSONAL DETAIL -->
+
+
+
+                                <!-- PASSWORD -->
+                                <div class="clearfix border-bottom mt--60">
+
+                                    <div class="text-align-end">
+                                        <a href="#user_edit_password" class="text-gray-500 text-decoration-none font-light collapsed" data-toggle="collapse" aria-expanded="false" onclick="jQuery('#user_password_current, #user_password_new').val('');">
+                                            <span class="group-icon fs--13">
+                                                <i class="fi fi-arrow-down"></i>
+                                                <i class="fi fi-close"></i>
+                                            </span>
+
+                                            <span class="pl-2 pr-2">
+                                                Изменение пароля
+                                            </span>
+                                        </a>
+                                    </div>
+
+
+                                    <div id="user_edit_password" class="collapse" style="">
+
+                                        <div class="row mt-3">
+
+                                            <div class="col-12 col-sm-6 col-md-6">
+
+                                                <div class="input-group-over">
+                                                    <div class="form-label-group mb-3">
+                                                        <input placeholder="Текущий пароль" id="account_current_password" name="account_current_password" type="password" class="form-control">
+                                                        <label for="account_current_password">Текущий пароль</label>
+                                                    </div>
+
+                                                    <!-- `SOW : Form Advanced` plugin used -->
+                                                    <a href="account-sign-password.html" class="btn fs--12 btn-password-type-toggle" data-target="#account_current_password">
+                                                        <span class="group-icon">
+                                                            <i class="fi fi-eye m-0"></i>
+                                                            <i class="fi fi-close m-0"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-12 col-sm-6 col-md-6">
+
+                                                <div class="input-group-over">
+                                                    <div class="form-label-group mb-3">
+                                                        <input placeholder="Новый пароль" id="account_new_password" name="account_new_password" type="password" class="form-control">
+                                                        <label for="account_new_password">Новый пароль</label>
+                                                    </div>
+
+                                                    <!-- `SOW : Form Advanced` plugin used -->
+                                                    <a href="account-sign-password.html" class="btn fs--12 btn-password-type-toggle" data-target="#account_new_password">
+                                                        <span class="group-icon">
+                                                            <i class="fi fi-eye m-0"></i>
+                                                            <i class="fi fi-close m-0"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- /PASSWORD -->
+
+
+
+                                <!-- DELETE ACCOUNT -->
+                                <div class="clearfix mt--60">
+
+                                    <div class="text-align-end">
+                                        <a href="#account_deactivate_confirm" class="text-gray-500 text-decoration-none font-light collapsed" data-toggle="collapse" aria-expanded="false" onclick="jQuery('#user_password_current, #user_password_new').val('');">
+                                            <span class="group-icon fs--13">
+                                                <i class="fi fi-arrow-down"></i>
+                                                <i class="fi fi-close"></i>
+                                            </span>
+
+                                            <span class="pl-2 pr-2">
+                                                Удаления аккаунта
+                                            </span>
+                                        </a>
+                                    </div>
+
+
+                                    <div id="account_deactivate_confirm" class="collapse" style="">
+
+                                        <div class="alert b-0 bg-danger-soft mt-3 mb-5 p-4 clearfix">
+
+                                            <p>
+                                                Внимание: после удаления все данные будут утеряны.
+                                            </p>
+
+                                            <p class="m-0 fs--13">
+                                                Укажите причины, которые являются основанием для удаления вашего аккаунта.
+                                            </p>
+
+                                            <i class="arrow arrow-lg arrow-bottom arrow-center border-danger-soft"></i>
+                                        </div>
+
+                                        <div class="row mb--60">
+
+                                            <div class="col-12 offset-lg-2 col-lg-7">
+
+                                                <div class="input-group-over">
+                                                    <div class="form-label-group mb-1">
+                                                        <input placeholder="Current Password" id="account_del_current_password" name="account_del_current_password" type="password" class="form-control">
+                                                        <label for="account_del_current_password">Пароль</label>
+                                                    </div>
+
+                                                    <!-- `SOW : Form Advanced` plugin used -->
+                                                    <a href="account-sign-password.html" class="btn fs--12 btn-password-type-toggle" data-target="#account_del_current_password">
+                                                        <span class="group-icon">
+                                                            <i class="fi fi-eye m-0"></i>
+                                                            <i class="fi fi-close m-0"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+
+                                                <div class="mt--7 fs--13 text-muted mb--30">
+                                                    В целях безопасности, вы должны указать ваш пароль.
+                                                </div>
+
+
+                                                <div class="form-label-group mb-1">
+                                                    <textarea rows="5" placeholder="Feedback" id="account_deactivate_feedback" name="account_deactivate_feedback" class="form-control"></textarea>
+                                                    <label for="account_deactivate_feedback">Причины удаления аккаунта</label>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- /DELETE ACCOUNT -->
+
+
+
+                                <div class="border-top pt-4 mt-1">
+
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fi fi-check"></i>
+                                        Сохранить изменения
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+
+
+                        <!-- ADDRESSES TAB -->
+                        {% set projects = user.projects %}
+                        <div id="tab_address" class="tab-pane border bt-0 p-4 shadow-xs">
+
+                            <!-- products -->
+						<div class="order-2 col-12 col-sm-12 col-md-12 col-lg-12">
+
+							<!-- additional filters -->
+							<div class="bg-white mb-5 p-3 rounded clearfix">
+
+								<div class="clearfix border-bottom pb-3 mb-3">
+
+									<div class="float-start fs--14 position-relative mt-1">
+										<h2 class="h6 mb-0">
+                                            Количество проектов: {{projects | length}}
+                                        </h2>
+									</div>
+
+									<div class="float-end fs--14 position-relative mt-1">
+										Сортировать: &nbsp; <a href="#" class="text-primary text-decoration-none" data-toggle="dropdown" aria-expanded="false">
+											 По популяроности &nbsp;
+											<i class="fi fi-arrow-down-slim fs--12"></i>
+										</a>
+
+										<ul class="dropdown-menu b-0 mt-3 rounded fs--15">
+											<li class="dropdown-item active"><a href="#!" class="text-muted py-2 d-block">По популяроности</a></li>
+											<li class="dropdown-item"><a href="#!" class="text-muted py-2 d-block">По дате публикования</a></li>
+										</ul>
+									</div>
+
+								</div>
+
+							</div>
+							<!-- /additional filters -->
+
+
+
+							<!-- product list -->
+							<div class="row gutters-xs--xs">
+
+
+                                {% if projects | length == 0 %}
+                                <div>У вас пока что нет своих проектов</div>
+                                {% endif %}
+
+                                {% for project in projects %}
+								<!-- item -->
+								<div class="col-6 col-md-4 mb-4 mb-2-xs ">
+
+									<div class="bg-white shadow-md shadow-3d-hover transition-all-ease-250 transition-hover-top rounded show-hover-container p-2 h-100">
+
+										<!-- hover buttons : top -->
+										<div class="position-absolute top-0 end-0 text-align-end w--60 z-index-3 m-3  d-sm-inline-block">
+
+											<a  href="/project/{{project.id}}/edit/"
+                                                class="btn-toggle btn bg-white shadow-lg btn-sm rounded-circle mb-2"
+												data-toggle="tooltip"
+												data-original-title="Редактировать"
+												data-placement="left">
+												<i class="fi fi-pencil"></i>
+											</a>
+
+											<a class="cursor_pointer remove_project btn bg-white shadow-lg btn-sm rounded-circle mb-2"
+                                               project_id="{{project.id}}"
+                                               data-toggle='modal'
+                                               data-target='#remove_project_modal'
+                                               data-placement="left"
+                                               data-original-title="Удалить">
+												<i class="fi fi-thrash"></i>
+											</a>
+
+                                            <a  class="disabled like_project btn-toggle btn bg-secondary shadow-lg btn-sm rounded-circle mb-2"
+                                                data-toggle="tooltip"
+                                                data-original-title="Нравится"
+                                                data-placement="left">
+                                                <i class="fi fi-like text-white"></i>
+                                                <span class="badge badge-danger position-absolute right-0 mt--n2 mr--n2 rounded-circle">{{project.likes | length}}</span>
+                                            </a>
+
+                                            <a class="disabled dislike_project btn bg-secondary shadow-lg btn-sm rounded-circle mb-2"
+                                               data-toggle='tooltip'
+                                               data-placement="left"
+                                               data-original-title="Не нравится">
+                                                <i class="fi fi-dislike text-white"></i>
+                                                <span class="badge badge-danger position-absolute right-0 mt--n2 mr--n2 rounded-circle">{{project.dislikes | length}}</span>
+                                            </a>
+										</div>
+										<!-- /hover buttons : top -->
+
+										<a href="/project/{{project.id}}/" class="d-block text-decoration-none">
+
+                                            <figure class="m-0 text-center">
+                                                <img class="img-fluid"
+                                                     {% if project.image %}
+                                                     src="{{url_for('static', filename='projects/logo/')}}{{project.image}}"
+                                                     {% else %}
+                                                     src="{{url_for('static', filename='demo.files/svg/premium/crm_1.svg')}}"
+                                                     {% endif %}
+                                                     alt="...">
+                                            </figure>
+
+                                            <span class="d-block text-center-xs text-gray-600 py-3">
+
+                                                <!--
+                                                    .max-height-50  = limited to 2 rows of text
+                                                    -or-
+                                                    .text-truncate
+                                                -->
+                                                <h5 class="m-0 max-h-50 overflow-hidden">
+                                                    {{project.title}}
+                                                </h5>
+
+
+                                                <ul class="list-inline  mb-2">
+                                                    {% for category in project.categories %}
+                                                    <li class="list-inline-item">
+                                                        <a href="#!" class="badge badge-dark badge-soft ">{{category.name}}</a>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+
+
+                                            </span>
+
+                                        </a>
+
+									</div>
+
+								</div>
+								<!-- /item -->
+                                {% endfor %}
+                            </div>
+							<!-- /product list -->
+
+                        </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- / -->
+{% endblock content %}
+
+{% include 'project/modals/remove.html' %}
+
+{% block additional_scripts %}
+    <script src="{{url_for('static', filename='assets/js/socket.io.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/auth/account.js') }}"></script>
+{% endblock additional_scripts %}

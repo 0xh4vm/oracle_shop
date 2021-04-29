@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% include 'product/modals/edit.html' %}
+
+{% block content %}
+
+    <!-- -->
+    <section>
+        <div class="container">
+
+            <div class="row">
+
+                {% for product in products %}
+                <!-- item -->
+                <div id="product-{{product.id}}" class="col-6 col-md-4 mb-4 mb-2-xs ">
+
+                    <div class="bg-white shadow-md shadow-3d-hover transition-all-ease-250 transition-hover-top rounded show-hover-container p-2 h-100">
+                        
+                        {% if user.role.title != 'C##MANAGER' and product.id in purchase %}
+                            <h6 class="position-absolute top-0 start-0 text-align-start w--60 z-index-3 m-3  d-sm-inline-block">
+                                <span class="badge mb-2 badge-primary badge-soft">
+                                    {% if user.role.title == 'C##SELLER' %}
+                                        У вас купили {{purchase[product.id]}} экз.
+                                    {% else %}
+                                        Вы купили {{purchase[product.id]}} экз.
+                                    {% endif %}
+                                </span>
+                            </h6>
+                        {% endif %}
+                        <h6 class="position-absolute top-0 start-0 mt-5 text-align-start w--60 z-index-3 m-3  d-sm-inline-block">
+                            <span class="badge badge-primary badge-soft">
+                                    Осталось: {{product.count_products}} экз.
+                            </span>
+                        </h6>
+                        <!-- hover buttons : top -->
+                        <div class="position-absolute top-0 end-0 text-align-end w--60 z-index-3 m-3  d-sm-inline-block">
+
+                            {% set like = user in product.likes %}
+                            <a  class="{% if user in product.authors or user.role.title != 'C##CUSTOMER' %} disabled {% else %} cursor_pointer {% endif %} like_product btn-toggle btn {% if like %} bg-danger {% else %} bg-white {% endif %} shadow-lg btn-sm rounded-circle mb-2"
+                                product_id="{{product.id}}"
+                                data-toggle="tooltip"
+                                data-original-title="Нравится"
+                                data-placement="left">
+                                <i class="fi fi-like {% if like %} text-white {% else %} text-dark {% endif %}"></i>
+                                <span class="badge badge-danger position-absolute right-0 mt--n2 mr--n2 rounded-circle">{{product.likes | length}}</span>
+                            </a>
+
+                            {% set dislike = user in product.dislikes %}
+                            <a class="{% if user in product.authors or user.role.title != 'C##CUSTOMER' %} disabled {% else %} cursor_pointer {% endif %} dislike_product btn {% if dislike %} bg-danger {% else %} bg-white {% endif %} shadow-lg btn-sm rounded-circle mb-2"
+                               product_id="{{product.id}}"
+                               data-toggle='tooltip'
+                               data-placement="left"
+                               data-original-title="Не нравится">
+                                <i class="fi fi-dislike {% if dislike %} text-white {% else %} text-dark {% endif %}"></i>
+                                <span class="badge badge-danger position-absolute right-0 mt--n2 mr--n2 rounded-circle">{{product.dislikes | length}}</span>
+                            </a>
+
+                            {% if user.role.title == 'C##CUSTOMER' %}
+                            {% set in_cart = product in cart %}
+                            <a href="#" class="{% if product.count_products == 0 and product not in user.cart_products %} disabled {% else %} cursor_pointer {%endif%} btn to_cart {% if in_cart %} bg-danger {% else %} bg-white {% endif %} shadow-lg btn-sm rounded-circle mb-2 "
+                               product_id="{{product.id}}"
+                               data-toggle='tooltip'
+                               data-placement="left"
+                               data-original-title="В корзину">
+                                <i class="fi fi-cart-2 {% if in_cart %} text-white {% else %} text-dark {% endif %}"></i>
+                            </a>
+                            {% endif %}
+
+                            {% if user.role.title == 'C##SELLER' %}
+                            <a href="#" class="cursor_pointer btn edit bg-white shadow-lg btn-sm rounded-circle mb-2"
+                                product_id="{{product.id}}"
+                                data-toggle="modal" data-target="#edit_product_modal"
+                                data-placement="left"
+                                data-original-title="Редактировать">
+                                <i class="fi fi-pencil"></i>
+                            </a>
+
+                            
+                            <a href="#" class="cursor_pointer btn remove bg-white shadow-lg btn-sm rounded-circle mb-2"
+                                product_id="{{product.id}}"
+                                data-toggle='tooltip'
+                                data-placement="left"
+                                data-original-title="Удалить">
+                                <i class="fi fi-thrash"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                        <!-- /hover buttons : top -->
+
+                        <a href="/product/{{product.id}}/" class="d-block text-decoration-none">
+
+                            <figure class="m-0 text-center">
+                                <img class="img-fluid"
+                                     {% if product.image %}
+                                     src="{{url_for('static', filename='products/')}}{{product.image}}"
+                                     {% else %}
+                                     src="{{url_for('static', filename='demo.files/svg/premium/crm_1.svg')}}"
+                                     {% endif %}
+                                     alt="...">
+                            </figure>
+
+                            <span class="d-block text-center-xs text-gray-600 py-3">
+
+                                <h5 class="m-0 max-h-50 overflow-hidden">
+                                    {{product.title}}
+                                </h5>
+                                <h6 class="m-0 max-h-50 overflow-hidden">
+                                    {{product.cost}} руб.
+                                </h6>
+                                <!-- {% if user == product.seller %}
+                                <span class="fs--14 text-secondary">(Ваш товар)</span>
+                                {%endif%} -->
+
+                                <span class="fs--16 text-secondary">
+                                    {{product.description}}
+                                </span>
+
+                                <ul class="list-inline  mb-2">
+                                    {% for category in product.categories %}
+                                    <li class="list-inline-item">
+                                        <a href="#!" class="badge badge-dark badge-soft ">{{category.name}}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+
+                                <div class=" fs--12 text-muted text-align-end mt--3">
+                                    Недавние действия: <span product_id="{{product.id}}" class="version">{{product.date_of_creation}}</span>
+                                </div>
+
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+                <!-- /item -->
+                {% endfor %}
+
+            </div>
+
+            {#<!-- pagination -->
+            {% set active_page = 1 if request.args.get('page') is none else request.args.get('page') | int %}
+            {% set iter_pages = products.iter_pages() | list %}
+            <nav aria-label="pagination" class="d-flex d-inline-block">
+
+                <ul class="pagination-custom list-unstyled">
+
+                    <li class="page-item d-inline-block ml--2 mr--2 {% if active_page == 1 %} disabled {% endif %}">
+                        <a class="page-link bw--2" href="{{ url_for('product.product_view', page=active_page|int - 1) }}" tabindex="-1" aria-disabled="true">
+                            <i class="fi fi-arrow-start fs--11"></i>
+                        </a>
+                    </li>
+
+                {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+
+                    {% if page_num  %}
+                    <li class="d-inline-block ml--2 mr--2 page-item {% if active_page == page_num %} active {% endif %}">
+                        <a href="{{ url_for('product.product_view', page=page_num) }}"
+                            class="page-link cursor-pointer">
+                            {{page_num}}
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item d-inline-block ml--2 mr--2">
+                        <a href="{{ url_for('product.product_view', page=page_num) }}" class="page-link cursor-pointer">...</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                    <li class="page-item d-inline-block ml--2 mr--2 {% if active_page == iter_pages | length %} disabled {% endif %}">
+                        <a class="page-link bw--2" href="{{ url_for('product.product_view', page=active_page|int + 1) }}">
+                            <i class="fi fi-arrow-end fs--11"></i>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- pagination -->#}
+
+        </div>
+    </section>
+{% endblock content %}
+
+{% block additional_scripts %}
+    <script src="{{url_for('static', filename='assets/js/socket.io.js')}}"></script>
+    <script src="{{url_for('static', filename='js/product/index.js')}}"></script>
+
+    <script type="text/javascript">
+        socket.on('connect', () => {
+            socket.emit('join', {'room': '{{user.id}}'})
+        })
+    </script>
+{% endblock %}

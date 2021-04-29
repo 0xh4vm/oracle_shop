@@ -1,0 +1,496 @@
+{% extends 'base.html' %}
+
+{% include 'project/modals/add_comment.html' %}
+
+{% include 'project/modals/add_comment_reply.html' %}
+
+{% block content %}
+<!-- PAGE TITLE -->
+<section class="bg-theme-color-light p-0">
+    <div class="container py-5">
+
+        <h1 id="project_title" project_id="{{project.id}}" class="h3">
+            {{project.title}}
+            {% if user in project.authors %}
+                <span class="fs--14 text-secondary">(Ваш проект)</span>
+            {%endif%}
+        </h1>
+
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb fs--14">
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                <li class="breadcrumb-item"><a href="/project/">Проекты</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{project.title}}</li>
+            </ol>
+        </nav>
+
+    </div>
+</section>
+<!-- /PAGE TITLE -->
+
+<!-- -->
+<section>
+    <div class="container">
+
+
+        <section class="swiper-container swiper-btn-group swiper-btn-group-end text-white p-0 h-75vh overflow-hidden"
+            data-swiper='{
+                "slidesPerView": 1,
+                "spaceBetween": 0,
+                "autoplay": { "delay" : 4500, "disableOnInteraction": false },
+                "loop": true,
+                "effect": "fade",
+                "pagination": { "type": "bullets" }
+            }'>
+
+            <div class="position-absolute top-0 end-0 text-align-end w--60 z-index-3 m-3  d-sm-inline-block">
+
+                {% set like = user in project.likes %}
+                <a  class="{% if user in project.authors %} disabled {% else %} cursor_pointer {% endif %} like_project btn-toggle btn {% if like %} bg-danger {% else %} bg-white {% endif %} shadow-lg btn-sm rounded-circle mb-2"
+                    project_id="{{project.id}}"
+                    data-toggle="tooltip"
+                    data-original-title="Нравится"
+                    data-placement="left">
+                    <i class="fi fi-like {% if like %} text-white {% else %} text-dark {% endif %}"></i>
+                    <span class="badge badge-danger position-absolute right-0 mt--n2 mr--n2 rounded-circle">{{project.likes | length}}</span>
+                </a>
+
+                {% set dislike = user in project.dislikes %}
+                <a class="{% if user in project.authors %} disabled {% else %} cursor_pointer {% endif %} dislike_project btn {% if dislike %} bg-danger {% else %} bg-white {% endif %} shadow-lg btn-sm rounded-circle mb-2"
+                   project_id="{{project.id}}"
+                   data-toggle='tooltip'
+                   data-placement="left"
+                   data-original-title="Не нравится">
+                    <i class="fi fi-dislike {% if dislike %} text-white {% else %} text-dark {% endif %}"></i>
+                    <span class="badge badge-danger position-absolute right-0 mt--n2 mr--n2 rounded-circle">{{project.dislikes | length}}</span>
+                </a>
+
+                {% set in_bookmarks = project in user.bookmarks %}
+                <a class="{% if user in project.authors %} disabled {% else %} cursor_pointer {%endif%} to_bookmark_project btn {% if in_bookmarks %} bg-danger {% else %} bg-white {% endif %} shadow-lg btn-sm rounded-circle mb-2"
+                   project_id="{{project.id}}"
+                   data-toggle='tooltip'
+                   data-placement="left"
+                   data-original-title="В закладки">
+                    <i class="fi fi-bookmark {% if in_bookmarks %} text-white {% else %} text-dark {% endif %}"></i>
+
+                </a>
+
+                <a href="#" class="{% if user in project.authors %} disabled {% else %} cursor_pointer {%endif%} btn bg-white shadow-lg btn-sm rounded-circle mb-2"
+                   project_id="{{project.id}}"
+                   data-toggle='tooltip'
+                   data-placement="left"
+                   data-original-title="Написать основателю">
+                    <i class="fi fi-send"></i>
+                </a>
+            </div>
+
+            <div class="swiper-wrapper h-100">
+
+                <!-- slide -->
+                <div class="lazy h-100 swiper-slide d-middle bg-white overlay-dark overlay-opacity-1 d-middle bg-cover rounded-xl overflow-hidden"
+                     style="{% if project.image %}background-image:url('{{url_for('static', filename='projects/logo/')}}logo_{{project.id}}.jpg')
+                        {% else %}background-image:url('{{url_for('static', filename='demo.files/svg/premium/crm_1.svg')}}'){% endif %}">
+                </div>
+
+                {% for slide in project.slides %}
+                <!-- slide -->
+                <div class="lazy h-100 swiper-slide d-middle bg-white overlay-dark overlay-opacity-1 bg-cover rounded-xl overflow-hidden"
+                     style="background-image:url('{{url_for('static', filename='projects/slides/')}}{{project.id}}/{{slide.image}}')">
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <!-- Add Arrows -->
+            <div class="swiper-button-next swiper-button-white"></div>
+            <div class="swiper-button-prev swiper-button-white"></div>
+
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+
+        </section>
+        <!-- /SWIPER -->
+
+    </div>
+</section>
+<!-- / -->
+
+<!-- -->
+<div>
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-remember active" data-toggle="tab" href="#tab_annotation">Аннотация</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-remember" data-toggle="tab" href="#tab_description">О проекте</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-remember" data-toggle="tab" href="#tab_comments">Комментарии {% if project.comments | length > 0 %}
+                            (
+                                <span class="count_comments" project_id="{{project.id}}">
+                                    {{project.comments | length}}
+                                </span>
+                            )
+                            {% endif %}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-remember" data-toggle="tab" href="#tab_updates">Обновления {% if project.updates | length > 0 %}({{project.updates | length}}){% endif %}</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <div id="tab_annotation" class="tab-pane active">
+                        <section class="bg-theme-color-light">
+                            <div class="container">
+
+                                <div class="row">
+                                    {% set annotation = project.annotation[0] %}
+                                    <div class="col-12 col-lg-8 mb-5 ">
+                                        <h2 class="m-0 fs-25">
+                                            {{ annotation.title }}
+                                        </h2>
+                                        <h6 class="font-weight-normal mb-4">
+                                            {{ project.date_of_creation | datetime_to_string }}
+                                        </h6>
+
+                                        <div class="border-left border-primary bw--3 py-1 px-3 my-5">
+                                            <h2 class="mb-3 h5">Краткая информация о проекте</h2>
+                                            <p class="mb-0 text-gray-800">{{ annotation.body }}</p>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-12 col-lg-4">
+
+                                        <div class="bg-white p-4 rounded shadow-primary-xs">
+
+                                            <ul class="list-unstyled list-icons m-0">
+                                                <li>
+                                                    <ul class="list-inline">
+                                                        <i class="fi fi-user-male mr-2"></i>
+                                                        Автор{% if project.authors | length > 1 %}ы{%endif%}:
+                                                        {% for author in project.authors %}
+                                                            <li class="list-inline-item">
+                                                                <a href="/user/profile/{{author.id}}/" class="text-gray-600">{{author.nickname}}</a>
+                                                                {% if not loop.last %},{% endif %}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+
+                                                </li>
+                                                <li>
+                                                    <i class="fi fi-time mr-2"></i>
+                                                    Изменения:
+                                                    <a href="/project/blog/{{project.id}}/" class="text-gray-600">29th June 2017</a>
+                                                </li>
+                                                <li>
+                                                    <ul class="list-inline">
+                                                        <i class="fi fi-mollecules mr-2"></i>
+                                                        Категории:
+                                                        {% for category in project.categories %}
+                                                            <li class="list-inline-item">
+                                                                <a href="/project/category/{{category.id}}/" class="text-gray-600">{{category.name}}</a>
+                                                                {% if not loop.last %},{% endif %}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            </ul>
+
+                                            {% if project.website %}
+                                            <div class="mt-5">
+                                                <a href="{{project.website}}" target="unsplash" rel="noopener" class="btn btn-lg btn-outline-dark shadow-none btn-block">
+                                                    Перейти на сайт проекта
+                                                </a>
+                                            </div>
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div id="tab_description" class="tab-pane">
+                        <!-- DESCRIPTION -->
+                        <div class="mt-5 mb-5">
+                            <div class="container">
+
+
+
+                                <div class="lead article-format">
+
+                                    <span id="description"></span>
+
+                                </div>
+
+                                {% set description = project.description[0] %}
+                                <!-- last update info -->
+                                <div class="fs--14 font-weight-light mt-1 text-muted">
+                                    Опубликовано: {{description.date_of_change | datetime_to_string}}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /DESCRIPTION -->
+                    </div>
+
+                    <div id="tab_comments" class="tab-pane">
+                        <!-- REVIEWS -->
+                        <section>
+                            <div class="comment-list container">
+
+                                <h2 class="font-weight-light mb-5 text-center-xs">
+                                    Комментарии
+                                </h2>
+
+                                <!-- summary -->
+                                <div class="shadow-xs p-4 mb-5 rounded">
+
+                                    <div class="row my-2">
+
+                                        <div class="col-md-6 col-sm-6 text-center-xs">
+
+                                            <h5 class="mb-3">Изложите свои мысли о данном проекте?</h5>
+
+                                        </div>
+
+
+                                        <div class="col-12 d-block d-sm-none my-5"><hr><!-- mobile spacer --></div>
+
+                                        <div class="col-md-6 col-sm-6 text-center">
+
+                                            <a  data-toggle='modal'
+                                                data-target='#add_comment_modal'
+                                                class="btn btn-primary cursor-pointer text-white">
+                                                <i class="fi fi-pencil"></i>
+                                                Написать комментарий
+                                            </a>
+
+                                        </div>
+
+
+                                        <div class="col-12 hidden-md-up mt--40"><!-- mobile spacer --></div>
+
+                                    </div>
+
+                                </div>
+                                <!-- /summary -->
+
+                                {% for comment in project.comments %}
+                                {% set reply_review_collapse = randomword() %}
+                                <div id="comment-{{comment.id}}" class="row mb-5">
+
+                                    <div class="col-md-2 text-center">
+
+                                        {% set author = comment.author %}
+                                        <!-- avatar -->
+                                        {% if author.image is none %}
+                                            <span data-initials="{{author.nickname}}" data-assign-color="true" class="sow-util-initials bg-light h5 m-0 w--60 h--60 rounded-circle d-inline-flex justify-content-center align-items-center">
+                                                <i class="fi fi-circle-spin fi-spin"></i>
+                                            </span>
+                                        {% else %}
+                                        <span class="w--80 h--80 rounded-circle d-inline-block bg-cover"
+                                              style="background-image:url('{{url_for('static', filename='users/avatar/')}}{{author.image}}')"></span>
+                                        {% endif %}
+                                        <!--                                        2019-09-17T23:59:17-->
+                                        <div class="mt-2">
+                                            <a href="/profile/{{author.id}}/">{{author.nickname}}</a>
+                                            <p class="d-block fs--12 text-muted sow-util-timeago"
+                                                data-time="{{comment.time | utc_to_local}}"
+                                                data-live="true"
+                                                data-lang='{
+                                                    "seconds" 		: "менее минуты назад",
+                                                    "minute" 		: "около минуты назад",
+                                                    "minutes" 		: "%d минут назад",
+                                                    "hour" 			: "около часа назад",
+                                                    "hours" 		: "около %d часов назад",
+                                                    "day" 			: "день назад",
+                                                    "days" 			: "%d дней назад",
+                                                    "month" 		: "около месяца назад",
+                                                    "months" 		: "%d месяцев назад",
+                                                    "year" 			: "около года назад",
+                                                    "years" 		: "%d лет назад"
+                                                }'>
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-10">
+
+                                        <div class="mb-2">
+                                            <h5>{{comment.title}}</h5>
+                                        </div>
+
+                                        <p>
+                                            {{comment.body}}
+                                        </p>
+
+                                        <!-- user images -->
+                                        <div class="clearfix">
+
+                                            {% for image in comment.images %}
+                                            <a class="photoswipe" data-photoswipe="gallery-review-id-1" href="{{url_for('static', filename='users/comments/')}}{{image.image}}">
+                                                <img height="80" class="float-start mb-1 rounded lazy"
+                                                     data-src="{{url_for('static', filename='users/comments/')}}{{image.image}}"
+                                                     src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="...">
+                                            </a>
+                                            {% endfor %}
+
+                                        </div>
+                                        <!-- /user images -->
+
+                                        <!-- review options -->
+                                        <ul class="list-inline my-4">
+                                            <li class="list-inline-item d-block-xs m-0-xs">
+
+                                                <a  comment_id="{{comment.id}}"
+                                                    class="cursor-pointer comment_like btn-toggle btn btn-light py-1 px-2 mb-1 fs--14 d-block-xs text-align-start">
+
+                                                    {% set comment_like = user in comment.likes %}
+                                                    <i class="fi fi-like {% if comment_like %} text-primary {% else %} text-dark {% endif %}"></i>
+
+                                                    <span>Нравится</span>
+                                                    (<span>{{comment.likes | length}}</span>)
+                                                </a>
+
+                                            </li>
+
+                                            <li class=" list-inline-item d-block-xs m-0-xs" comment_id="{{comment.id}}">
+                                                <a class="btn btn-light btn-toggle py-1 px-2 mb-1 fs--14 d-block-xs text-align-start" href="#{{reply_review_collapse}}" data-toggle="collapse">
+                                                    <span>
+                                                    <span class="group-icon">
+                                                        <i class="fi fi-chat"></i>
+                                                        <i class="fi fi-close"></i>
+                                                    </span>
+
+                                                    <span class="group-icon">
+                                                        <i>Показать обсуждение</i>
+                                                        <i>Скрыть обсуждение</i>
+                                                    </span>
+
+                                                    (<span class="count_replies" comment_id="{{comment.id}}">{{comment.replies | length}}</span>)
+                                                    </span>
+                                                </a>
+                                            </li>
+
+                                            <li class="list-inline-item d-block-xs m-0-xs">
+
+                                                <a class="reply cursor-pointer btn btn-light font-weight-normal py-1 px-2 mb-1 fs--14 d-block-xs text-align-start"
+                                                    comment_id="{{comment.id}}"
+                                                    data-toggle='modal'
+                                                    data-target='#add_comment_reply_modal'>
+                                                    <i class="fi fi-plus"></i>
+                                                    Обсудить
+                                                </a>
+
+                                            </li>
+
+                                            {% if user in project.authors or user == comment.author %}
+                                            <li class="list-inline-item d-block-xs m-0-xs">
+                                                <a comment_id="{{comment.id}}"
+                                                   class="delete-comment btn btn-light btn-toggle py-1 px-2 mb-1 fs--14 d-block-xs text-align-start cursor-pointer">
+                                                    <i class="fi fi-thrash"></i>
+                                                    <span>Удалить</span>
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                        <!-- /review options -->
+
+
+                                        <div id="{{reply_review_collapse}}" class="comment-reply-list collapse"
+                                            comment_id="{{comment.id}}">
+
+                                            {% for reply in comment.replies %}
+                                            {% set reply_author = reply.author %}
+                                            <div class="row">
+
+                                                <div class="col-lg-1 col-sm-2 col-3">
+                                                    {% if reply_author.image is none %}
+                                                    <span data-initials="{{reply_author.nickname}}" data-assign-color="true" class="sow-util-initials bg-light h5 m-0 w--60 h--60 rounded-circle d-inline-flex justify-content-center align-items-center">
+                                                        <i class="fi fi-circle-spin fi-spin"></i>
+                                                    </span>
+                                                    {% else %}
+                                                    <span class="w--60 h--60 rounded-circle d-inline-block bg-cover"
+                                                          style="background-image:url('{{url_for('static', filename='users/avatar/')}}{{reply_author.image}}')"></span>
+                                                    {% endif %}
+                                                </div>
+
+                                                <div class="col-lg-11 col-sm-10 col-9">
+                                                    <p>
+                                                        {{reply.body}}
+                                                    </p>
+
+                                                    <!-- user images -->
+                                                    <div class="clearfix">
+
+                                                        {% for image in reply.images %}
+                                                        <a class="photoswipe" data-photoswipe="gallery-review-id-1" href="{{url_for('static', filename='users/replies/')}}/{{image.image}}">
+                                                            <img height="80" class="float-start mb-1 rounded lazy"
+                                                                 data-src="{{url_for('static', filename='users/replies/')}}/{{image.image}}"
+                                                                 src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="...">
+                                                        </a>
+                                                        {% endfor %}
+
+                                                    </div>
+                                                    <!-- /user images -->
+
+                                                    <p class="d-block fs--12 text-muted">От <a href="/profile/{{reply_author.id}}/">{{reply_author.nickname}}</a> {{reply.time | datetime_to_string}}</p>
+                                                </div>
+
+                                            </div>
+                                            {% endfor %}
+
+                                        </div>
+                                        <!-- /replies -->
+
+
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </section>
+                    </div>
+
+                    <div id="tab_updates" class="tab-pane">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block additional_scripts %}
+    <script>
+        let description = '{{project.description[0].body}}'
+        description = description.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+        document.getElementById('description').innerHTML = description
+    </script>
+
+    <script src="{{url_for('static', filename='assets/js/socket.io.js')}}"></script>
+    <script src="{{url_for('static', filename='js/project/index.js')}}"></script>
+
+    <script src="{{url_for('static', filename='js/project/comments.js')}}"></script>
+{% endblock %}

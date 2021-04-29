@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block body_classes %}
+    header-sticky header-over
+{% endblock %}
+
+{% block header %}
+    {% include 'main/header.html' %}
+{% endblock header %}
+
+{% block content %}
+    <!-- box count -->
+<div class="p--15 shadow-md rounded bw--2" data-aos="fade-up">
+
+	<div class="row col-border">
+
+		<!-- #1 -->
+		<div class="col-12 col-md-4 mt-2 mb-2">
+
+			<div class="text-center">
+				<h2 class="h5 font-weight-medium text-gray-500">ОЦЕНКА</h2>
+				<div class="display-4 font-weight-medium text-warning mb-2">
+					<span data-toggle="count"
+							data-count-from="0"
+							data-count-to="5.0"
+							data-count-duration="2500"
+							data-count-decimals="1">0</span>/5.0
+				</div>
+				<span class="rating-5 fs--20 text-warning"></span>
+			</div>
+
+		</div>
+
+		<!-- mobile separator + spacer (between #1 and #2) -->
+		<div class="col-12 d-md-none d-lg-none d-xl-none">
+			<div class="border border-dashed bb-0 bl-0 br-0 h--1 ml-3 mr-3 mt-4 mb-4"></div>
+		</div>
+
+
+		<!-- #2 -->
+		<div class="col-12 col-md-4 mt-2 mb-2">
+
+			<div class="text-center">
+				<h2 class="h5 font-weight-medium text-success">
+
+					<!-- typed vendor -->
+					<span class="typed"
+							data-typed-string="ПРОЕКТЫ|СТАРТАПЫ|ТЕХНОЛОГИИ"
+							data-typed-speed-forward="80"
+							data-typed-speed-back="40"
+							data-typed-back-delay="700"
+							data-typed-loop-times="infinite"
+							data-typed-smart-backspace="true"
+							data-typed-shuffle="false"
+							data-typed-cursor="|"></span>
+
+				</h2>
+				<div class="display-4 font-weight-medium text-success mb-2">
+					<span data-toggle="count"
+							data-count-decimals=""
+							data-count-from="0"
+							data-count-to="7300"
+							data-count-duration="1500">0</span>+
+				</div>
+				<p class="m-0 text-gray-400 lead">
+					Зарегистрировано проектов
+				</p>
+			</div>
+
+		</div>
+
+		<!-- mobile separator + spacer (between #2 and #3) -->
+		<div class="col-12 d-md-none d-lg-none d-xl-none">
+			<div class="border border-dashed bb-0 bl-0 br-0 h--1 ml-3 mr-3 mt-4 mb-4"></div>
+		</div>
+
+
+		<!-- #3 -->
+		<div class="col-12 col-md-4 mt-2 mb-2">
+
+			<div class="text-center">
+				<h2 class="h5 font-weight-medium text-gray-500">КАЧЕСТВО</h2>
+				<div class="display-4 font-weight-medium text-primary mb-2">
+					<span data-toggle="count"
+							data-count-decimals=""
+							data-count-from="0"
+							data-count-to="100"
+							data-count-duration="2000">0</span>%
+				</div>
+				<p class="m-0 text-gray-400 lead">
+					Быстро • Удобно • Безопасно
+				</p>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+<!-- /box count -->
+
+    <div class="mt-4">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-12 col-md-7 col-lg-6" data-aos="fade-up" data-aos-delay="0">
+
+                    <span class="badge badge-pill badge-success badge-soft font-weight-light pl-2 pr-2 pt--6 pb--6 mb-2">
+                        НАЧИНАЙ МЕНЯТЬ МИР ПРЯМО СЕЙЧАС!
+                    </span>
+
+                    <h2 class="mb-4 font-weight-normal">
+                        What would you do if
+                        <span class="text-success">time</span> really matter?
+                    </h2>
+
+                    <p class="fs--18 mb-4">
+                        Frontend? Admin? What if you don't need anymore to learn and work with two different templates on your projects?
+                    </p>
+
+
+                    <div class="d-flex mb-4">
+
+                        <!-- icon -->
+                        <div class="text-primary">
+                            <img width="40" height="40" src="{{url_for('static', filename='demo.files/svg/icons/content_arrows_1.svg')}}" alt="...">
+                        </div>
+
+                        <div class="ml-4 mr-4">
+
+                            <!-- heading -->
+                            <h3 class="h5 mb-1">
+                                Modular &amp; Reusable
+                            </h3>
+
+                            <!-- text -->
+                            <p>
+                                All elements are reusable and adjustable. Just copy/paste an element and that's it! No more wasting time with custom css classes!
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex mb-4">
+
+                        <!-- icon -->
+                        <div class="text-primary">
+                            <img width="40" height="40" src="{{url_for('static', filename='demo.files/svg/icons/content_arrows_2.svg')}}" alt="...">
+                        </div>
+
+                        <div class="ml-4 mr-4">
+
+                            <!-- heading -->
+                            <h3 class="h5 mb-1">
+                                High quality oriented
+                            </h3>
+
+                            <!-- text -->
+                            <p>
+                                All our templates are built from scratch on top of bootstrap framework, high quality and speed being our primary focus.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-md-5 col-lg-6" data-aos="fade-up" data-aos-delay="150">
+
+                    <div class="d-table">
+                        <div class="d-table-cell align-middle">
+
+                            <div class="transform-3d-right">
+                                <img class="shadow-xlg img-fluid rounded-xl z-index-1" src="{{url_for('static', filename='demo.files/images/ps_smarty.jpg')}}" width="570" height="357" alt="...">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock content %}

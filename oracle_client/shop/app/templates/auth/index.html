@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- FORM -->
+<section class="">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-12 col-sm-12 offset-sm-0 col-md-8 offset-md-2 col-lg-6 offset-lg-0 order-2 order-lg-1">
+
+                <div class="accordion" id="accordionAccount">
+
+
+                    <!-- SIGN IN -->
+                    <form id="form_sign_in" class="collapse bs-validate show" novalidate method="post"
+                          action="/auth/sign_in/" id="accordionAccountSignIn"
+                          data-parent="#accordionAccount">
+
+                        <!-- title -->
+                        <h2 class="text-primary mb-1">
+                            Войти
+                        </h2>
+                        <p class="mb-5 font-weight-medium b-0">
+                            Введите почту и пароль для того, чтобы продолжить
+                        </p>
+
+                        <div class="p-5 rounded shadow-lg">
+
+
+                            <!--
+                            <p class="text-danger">
+                                Ups! Please check again
+                            </p>
+                            -->
+
+
+                            <div class="form-label-group mb-3">
+                                <input required placeholder="Логин" id="account_login" name="login" type="text" class="form-control">
+                                <label for="account_login">Логин</label>
+                            </div>
+
+                            <div class="input-group-over">
+                                <div class="form-label-group mb-3">
+                                    <input required placeholder="Password" id="account_password" name="password" type="password" class="form-control">
+                                    <label for="account_password">Пароль</label>
+                                </div>
+
+                                <a href="#accordionAccountPasswd" class="btn btn-pill fs--12" data-toggle="collapse" aria-expanded="true" aria-controls="accordionAccountPasswd">
+                                    Забыли пароль?
+                                </a>
+
+                            </div>
+
+                            <div class="form-label-group mb-3">
+                                <select id="account_select_role" name="select_role" class="form-control bs-select">
+                                    <option value="customer">Покупатель</option>
+                                    <option value="seller">Поставщик</option>
+                                </select>
+                                <label for="account_select_role">Выберите свою роль</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-soft btn-block">
+                                Войти
+                            </button>
+
+<!--                            <div class="text-center mt&#45;&#45;30">-->
+<!--                                <a href="#accordionAccountSignUp" class="d-block text-success text-decoration-none" data-toggle="collapse" aria-expanded="true" aria-controls="accordionAccountSignUp">-->
+<!--                                    Don't have an account yet?-->
+<!--                                </a>-->
+<!--                            </div>-->
+
+                        </div>
+
+                    </form>
+                    <!-- /SIGN IN -->
+
+
+
+                    <!-- PASSWD RESET -->
+                    <form id="form_reset_password" class="collapse bs-validate" novalidate method="post"
+                          action="/auth/reset_password/" id="accordionAccountPasswd" data-parent="#accordionAccount">
+
+                        <!-- title -->
+                        <h2 class="text-primary mb-1">
+                            Восстановление пароля
+                        </h2>
+                        <p class="mb-5 font-weight-medium b-0">
+                            Введите почту для того, чтобы продолжить
+                        </p>
+
+                        <div class="p-5 rounded shadow-lg">
+
+                            <h2 class="h5 text-center mb-5 mt-3">
+                                Инструкции для востановления пароля отправлены Вам на почту
+                            </h2>
+
+
+                            <!--
+                            <p class="text-danger">
+                                Ups! Please check again
+                            </p>
+                            -->
+
+
+                            <div class="form-label-group mb-4">
+                                <input required placeholder="Email" id="reset_email" name="reset_email" type="email" class="form-control">
+                                <label for="reset_email">Email</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-soft btn-block">
+                                Восстановить
+                            </button>
+
+                            <div class="text-center mt--30">
+                                <a href="#accordionAccountSignIn" class="d-block text-success text-decoration-none" data-toggle="collapse" aria-expanded="true" aria-controls="accordionAccountSignIn">
+                                    Назад
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </form>
+                    <!-- /PASSWD RESET -->
+
+                </div>
+
+            </div>
+
+            <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-0 order-1 order-lg-2">
+
+                <!-- SIGN UP -->
+                    <form id="form_sign_up" data-aos="flip-left" data-aos-once="false" class="bs-validate"
+                          novalidate method="POST" action="/auth/sign_up/">
+
+                        <!-- title -->
+                        <h2 class="text-primary mb-1">
+                            Зарегистрироваться
+                        </h2>
+                        <p class="mb-5 font-weight-medium b-0">
+                            Начнем? Это совершенно бесплатно!
+                        </p>
+
+                        <div class="p-5 rounded shadow-lg">
+
+
+                            <!--
+                            <p class="text-danger">
+                                Ups! Please check again
+                            </p>
+                            -->
+
+                            <div class="form-label-group mb-3">
+                                <input required placeholder="Login" id="signup_login" name="login" type="text" class="form-control">
+                                <label for="signup_login">Логин</label>
+                            </div>
+
+                            <div class="form-label-group mb-3">
+                                <input required placeholder="First Name" id="signup_first_name" name="first_name" type="text" class="form-control">
+                                <label for="signup_first_name">Имя</label>
+                            </div>
+
+                            <div class="form-label-group mb-3">
+                                <input required placeholder="Last Name" id="signup_last_name" name="last_name" type="text" class="form-control">
+                                <label for="signup_last_name">Фамилия</label>
+                            </div>
+
+                            <div class="form-label-group mb-3">
+                                <input required placeholder="Email" id="signup_email" name="email" type="email" class="form-control">
+                                <label for="signup_email">Email</label>
+                            </div>
+
+                            <div class="input-group-over">
+                                <div class="form-label-group mb-3">
+                                    <input required placeholder="Password" id="signup_password" name="password" type="password" class="form-control">
+                                    <label for="signup_password">Пароль</label>
+                                </div>
+
+                                <!-- `SOW : Form Advanced` plugin used -->
+                                <a href="account-sign-password.html" class="btn fs--12 btn-password-type-toggle" data-target="#signup_password">
+                                    <span class="group-icon">
+                                        <i class="fi fi-eye m-0"></i>
+                                        <i class="fi fi-close m-0"></i>
+                                    </span>
+                                </a>
+
+                            </div>
+
+                            <div class="input-group-over">
+                                <div class="form-label-group mb-3">
+                                    <input required placeholder="Password" id="signup_confirm_password" name="confirm_password" type="password" class="form-control">
+                                    <label for="signup_confirm_password">Подтверждение Пароля</label>
+                                </div>
+
+                                <!-- `SOW : Form Advanced` plugin used -->
+                                <a href="account-sign-password.html" class="btn fs--12 btn-password-type-toggle" data-target="#signup_password">
+                                    <span class="group-icon">
+                                        <i class="fi fi-eye m-0"></i>
+                                        <i class="fi fi-close m-0"></i>
+                                    </span>
+                                </a>
+
+                            </div>
+
+                            <div class="form-label-group mb-3">
+                                <select id="signup_select_role" name="select_role" class="form-control bs-select">
+                                    <option value="customer">Покупатель</option>
+                                    <option value="seller">Поставщик</option>
+                                </select>
+                                <label for="signup_select_role">Выберите свою роль</label>
+                            </div>
+                            <!-- GDPR CONSENT -->
+<!--                            <div class="clearfix bg-light position-relative rounded p-4 mb-4">-->
+
+<!--                                <span class="text-muted fs&#45;&#45;12 d-block position-absolute bottom-0 end-0 m-2">-->
+<!--                                    EU GDPR-->
+<!--                                </span>-->
+
+<!--                                <label class="form-checkbox form-checkbox-primary">-->
+<!--                                    <input required type="checkbox" name="checkbox">-->
+<!--                                    <i></i>-->
+<!--                                    <span>-->
+<!--                                        I consent that my data is being stored in-->
+<!--                                        line with the guidelines set out in-->
+<!--                                        <a href="page-terms-and-conditions.html" target="_blank">Privacy Policy</a>.-->
+<!--                                    </span>-->
+<!--                                </label>-->
+
+<!--                            </div>-->
+                            <!-- /GDPR CONSENT -->
+
+                            <button type="submit" class="btn btn-primary btn-soft btn-block">
+                                Зарегистрироваться
+                            </button>
+
+                        </div>
+
+                    </form>
+                    <!-- /SIGN UP -->
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<!-- /FORM -->
+{% endblock content %}
+
+{% block additional_scripts %}
+    <script src="{{url_for('static', filename='assets/js/socket.io.js')}}"></script>
+    <script src="{{url_for('static', filename='js/auth/auth.js')}}"></script>
+
+    
+{% endblock additional_scripts %}
